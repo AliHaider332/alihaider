@@ -1,0 +1,43 @@
+// app/sitemap.ts
+import type { MetadataRoute } from 'next';
+import { Web, DESKTOP, Console } from '@/data/projects';
+
+const SITE_URL = 'https://alihaider.dev'; // ← keep in sync
+
+export default function sitemap(): MetadataRoute.Sitemap {
+  const now = new Date();
+
+  // Static pages
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: `${SITE_URL}/`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 1,
+    },
+  ];
+
+  // Project detail pages
+  const projectPages: MetadataRoute.Sitemap = [
+    ...Web.map((p) => ({
+      url: `${SITE_URL}/projects/web/${p.id}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.7,
+    })),
+    ...DESKTOP.map((p) => ({
+      url: `${SITE_URL}/projects/desktop/${p.id}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.6,
+    })),
+    ...Console.map((p) => ({
+      url: `${SITE_URL}/projects/console/${p.id}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.5,
+    })),
+  ];
+
+  return [...staticPages, ...projectPages];
+}
