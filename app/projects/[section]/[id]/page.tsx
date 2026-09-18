@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import ProjectDetail from '@/components/Projects/ProjectDetail';
 import { sections, type SectionKey } from '@/data/projects';
-
+import { Suspense } from 'react';
 const SITE_URL = 'https://alihaider.dev'; // ← keep in sync
 
 interface PageProps {
@@ -84,7 +84,10 @@ export default async function ProjectDetailPage({ params }: PageProps) {
           }).replace(/</g, '\\u003c'),
         }}
       />
+      <Suspense fallback={<div>Loading project...</div>}>
       <ProjectDetail project={project} section={section} />
+    </Suspense>
+      
     </>
   );
 }
